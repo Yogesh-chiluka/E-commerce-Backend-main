@@ -7,6 +7,8 @@ import com.backend.Ecommerce.Backend.model.Cart;
 import com.backend.Ecommerce.Backend.repository.CartItemRepository;
 import com.backend.Ecommerce.Backend.repository.CartRepository;
 
+import jakarta.transaction.Transactional;
+
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -31,12 +33,12 @@ public class CartService implements ICartService {
         return cartRepository.save(cart);
     }
 
+    @Transactional
     @Override
     public void clearCart(Long id){
-        Cart cart = getCart(id); 
+        Cart cart = getCart(id);
         cartItemRepository.deleteAllByCartId(id);
         cart.getItems().clear();
-
         cartRepository.deleteById(id);
 
     }
@@ -56,5 +58,11 @@ public class CartService implements ICartService {
         newCart.setId(newCartId); 
 
         return cartRepository.save(newCart).getId();
+    }
+
+    @Override
+    public Cart getCartByUserId(Long userId){
+
+        return cartRepository.findByUserId(userId);
     }
 }

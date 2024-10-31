@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 
 import java.util.*;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
 
 @Getter
@@ -28,7 +27,7 @@ public class Cart {
     private Set<CartItem> items = new HashSet<>();
 
     @OneToOne
-    @JoinColumn(name =  "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public void addItem(CartItem item) {

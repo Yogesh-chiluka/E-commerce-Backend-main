@@ -5,15 +5,14 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
+import com.backend.Ecommerce.Backend.dto.ProductDto;
 import com.backend.Ecommerce.Backend.exception.ResourceNotFoundException;
 import com.backend.Ecommerce.Backend.model.Product;
 import com.backend.Ecommerce.Backend.request.AddProductRequest;
 import com.backend.Ecommerce.Backend.request.ProductUpdateRequest;
 import com.backend.Ecommerce.Backend.response.ApiResponse;
-import com.backend.Ecommerce.Backend.service.dto.ProductDto;
 import com.backend.Ecommerce.Backend.service.product.IProductService;
 
 import lombok.RequiredArgsConstructor;

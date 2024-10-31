@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import com.backend.Ecommerce.Backend.repository.ProductRepository;
 import com.backend.Ecommerce.Backend.request.AddProductRequest;
 import com.backend.Ecommerce.Backend.request.ProductUpdateRequest;
-import com.backend.Ecommerce.Backend.service.dto.ImageDto;
-import com.backend.Ecommerce.Backend.service.dto.ProductDto;
 import com.backend.Ecommerce.Backend.repository.CategoryRepository;
 import com.backend.Ecommerce.Backend.repository.ImageRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import com.backend.Ecommerce.Backend.dto.ImageDto;
+import com.backend.Ecommerce.Backend.dto.ProductDto;
 import com.backend.Ecommerce.Backend.exception.ProductNotFoundException;
 import com.backend.Ecommerce.Backend.model.Category;
 import com.backend.Ecommerce.Backend.model.Image;

@@ -15,14 +15,14 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("${api.prefix}/cartItem")
+@RequestMapping("${api.prefix}/cartItems")
 public class ICartItemController {
 
     private final ICartItemService cartItemService;
     private final ICartService cartService; 
 
-    @GetMapping("/item/add")
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long cartId,
+    @PostMapping("/item/add")
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId,
                                                     @RequestParam Long productId,
                                                     @RequestParam Integer quantity){
 
@@ -39,7 +39,7 @@ public class ICartItemController {
         }
     }
 
-    @GetMapping("/cart/{cartId}/item/{itemId}/remove")
+    @DeleteMapping("/cart/{cartId}/item/{itemId}/remove")
     public ResponseEntity<ApiResponse> removeItemFromCart(@PathVariable Long cartId,@PathVariable Long itemId){
 
         try {

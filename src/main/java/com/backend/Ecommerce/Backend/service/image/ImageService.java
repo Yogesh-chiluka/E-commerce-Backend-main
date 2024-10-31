@@ -10,11 +10,11 @@ import javax.sql.rowset.serial.SerialBlob;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.backend.Ecommerce.Backend.dto.ImageDto;
 import com.backend.Ecommerce.Backend.exception.ResourceNotFoundException;
 import com.backend.Ecommerce.Backend.model.Image;
 import com.backend.Ecommerce.Backend.model.Product;
 import com.backend.Ecommerce.Backend.repository.ImageRepository;
-import com.backend.Ecommerce.Backend.service.dto.ImageDto;
 import com.backend.Ecommerce.Backend.service.product.IProductService;
 
 import lombok.RequiredArgsConstructor;

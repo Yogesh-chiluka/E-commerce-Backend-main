@@ -2,10 +2,10 @@ package com.backend.Ecommerce.Backend.service.product;
 
 import java.util.List;
 
+import com.backend.Ecommerce.Backend.dto.ProductDto;
 import com.backend.Ecommerce.Backend.model.Product;
 import com.backend.Ecommerce.Backend.request.AddProductRequest;
 import com.backend.Ecommerce.Backend.request.ProductUpdateRequest;
-import com.backend.Ecommerce.Backend.service.dto.ProductDto;
 
 
 public interface IProductService {
