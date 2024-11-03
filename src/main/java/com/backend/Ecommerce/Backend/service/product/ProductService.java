@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.backend.Ecommerce.Backend.dto.ImageDto;
 import com.backend.Ecommerce.Backend.dto.ProductDto;
+import com.backend.Ecommerce.Backend.exception.AlreadyExistsException;
 import com.backend.Ecommerce.Backend.exception.ProductNotFoundException;
 import com.backend.Ecommerce.Backend.model.Category;
 import com.backend.Ecommerce.Backend.model.Image;
@@ -38,6 +39,10 @@ public class ProductService implements IProductService {
         // If No, the save it as a new category
         // The set as the new product category.
 
+        if(productExists(request.getName(), request.getBrand())){
+            throw new AlreadyExistsException(request.getBrand()+" " +request.getName    ()+" already exists, you may update this product instead." ); 
+        }
+
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(request.getCategory().getName());
@@ -45,6 +50,10 @@ public class ProductService implements IProductService {
                 });
         request.setCategory(category);
         return productRepository.save(createProduct(request, category));
+    }
+
+    private boolean productExists(String name, String brand){
+        return productRepository.existsByNameAndBrand(name, brand);
     }
 
 

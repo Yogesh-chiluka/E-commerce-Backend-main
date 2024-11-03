@@ -36,7 +36,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/{userId}/user")
+    @PostMapping("/add")
     public ResponseEntity<ApiResponse> creatUser(@RequestBody CreateUserRequest request){
         try {
             User user = userService.creatUser(request);
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}/deleteUser")
-    public ResponseEntity<ApiResponse> deleteUser(Long userId){
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId){
         try {
             userService.deleteUser(userId);
             return ResponseEntity.ok(new ApiResponse("User successfully deleted",null));

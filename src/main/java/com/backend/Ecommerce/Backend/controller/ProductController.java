@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.*;
 
 import com.backend.Ecommerce.Backend.dto.ProductDto;
+import com.backend.Ecommerce.Backend.exception.AlreadyExistsException;
 import com.backend.Ecommerce.Backend.exception.ResourceNotFoundException;
 import com.backend.Ecommerce.Backend.model.Product;
 import com.backend.Ecommerce.Backend.request.AddProductRequest;
@@ -56,8 +57,8 @@ public class ProductController {
         try {
             Product theProduct = productService.addProduct(product);
             return ResponseEntity.ok(new ApiResponse("Add product success!", theProduct));
-        } catch (Exception e) {
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(), null));
+        } catch (AlreadyExistsException e) {
+            return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
         }
     }
 

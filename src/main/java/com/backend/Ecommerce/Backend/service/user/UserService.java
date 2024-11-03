@@ -40,7 +40,7 @@ public class UserService implements IUserService{
                     user.setLastName(request.getLastName());
 
                     return userRepository.save(user);
-                }).orElseThrow(() -> new AlreadyExistsException("Oops!" +request.getEmail()+"alredy exists!"));
+                }).orElseThrow(() -> new AlreadyExistsException("Oops! " +request.getEmail()+" alredy exists!"));
     }
 
     @Override

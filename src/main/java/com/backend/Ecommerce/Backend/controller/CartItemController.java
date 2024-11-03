@@ -6,32 +6,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.backend.Ecommerce.Backend.exception.ResourceNotFoundException;
-import com.backend.Ecommerce.Backend.model.CartItem;
+import com.backend.Ecommerce.Backend.model.Cart;
+import com.backend.Ecommerce.Backend.model.User;
 import com.backend.Ecommerce.Backend.response.ApiResponse;
 import com.backend.Ecommerce.Backend.service.cart.ICartItemService;
 import com.backend.Ecommerce.Backend.service.cart.ICartService;
+import com.backend.Ecommerce.Backend.service.user.IUserService;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/cartItems")
-public class ICartItemController {
+public class CartItemController {
 
     private final ICartItemService cartItemService;
     private final ICartService cartService; 
+    private final IUserService userService;
 
     @PostMapping("/item/add")
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId,
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long userId,
                                                     @RequestParam Long productId,
                                                     @RequestParam Integer quantity){
 
         try {
 
-            if(cartId == null){
-                cartId = cartService.initializerNewCart();
-            }
-            cartItemService.addItemToCart(cartId, productId, quantity);
+            User user = userService.getUserById(userId);
+            Cart cart = cartService.initializerNewCart(user);
+            cartItemService.addItemToCart(cart.getId(), productId, quantity);
     
             return ResponseEntity.ok(new ApiResponse("Item added successfully to cart", null));
         } catch (ResourceNotFoundException e) {
@@ -64,15 +66,6 @@ public class ICartItemController {
         }
     }
 
-    @GetMapping("/getCartItem")
-    public ResponseEntity<ApiResponse> getCartItem(Long cartId, Long productId){
-
-        CartItem  cartItem = cartItemService.getCartItem(cartId, productId);
-
-        return ResponseEntity.ok(new ApiResponse("Item successfully fetched from cart", cartItem));
-
-
-    }
 
     
 }
