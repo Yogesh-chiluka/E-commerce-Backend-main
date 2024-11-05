@@ -22,15 +22,15 @@ This project is a backend API for an e-commerce platform, built with Spring Boot
 - [Testing](#Testing)
 ---
 
-
-## Project Overview<a name="project-overview"></a>x
+<a name="project-overview"></a>
+## Project Overview
 
 This backend application provides RESTful APIs to handle CRUD operations for products, categories, users, and order processing. It includes JWT-based authentication for secure login and access to resources.
 
 
 ---
-
-## Features<a name="Features"></a>
+<a name="Features"></a>
+## Features
 
 - Product Management: Create, update, delete, and retrieve products.
 
@@ -47,8 +47,8 @@ This backend application provides RESTful APIs to handle CRUD operations for pro
 
 
 ---
-
-## Technologies Used<a name="Technologies-Used"></a>
+<a name="Technologies-Used"></a>
+## Technologies Used
 
 - Java 17
 
@@ -67,8 +67,8 @@ This backend application provides RESTful APIs to handle CRUD operations for pro
 
 
 ---
-
-## Getting Started <a name="Getting-Started"></a>
+<a name="Getting-Started"></a>
+## Getting Started 
 
 
 ### Prerequisites
@@ -115,8 +115,8 @@ If you have any specific questions or run into issues during the setup, feel fre
 
 
 ---
-
-## Endpoints <a name="Endpoints"></a>
+<a name="Endpoints"></a>
+## Endpoints 
 
 #### Product Management
 - **GET /products**: List all products.
@@ -133,14 +133,16 @@ If you have any specific questions or run into issues during the setup, feel fre
 - **POST /auth/login**: Log in and receive a JWT.
 - **POST /auth/register**: Register a new user.
 ---
-## Project Structure <a name="Project-Structure"></a>
+ <a name="Project-Structure"></a>
+## Project Structure
 - **Entity Classes**: Represent database tables (e.g., Product, User, Order).
 - **Repository Layer**: Interfaces extending `JpaRepository` for database interactions.
 - **Service Layer**: Contains business logic for handling operations.
 - **Controller Layer**: REST API endpoints for application interaction.
 - **DTOs**: Used for data transfer between layers.
 ---
-## Security <a name="Security"></a>
+ <a name="Security"></a>
+## Security
 The project uses **Spring Security** with JWT-based authentication:
 - **UserSecurityService**: Custom user details service.
 - **JWT Util**: Manages JWT creation and validation.
@@ -150,7 +152,8 @@ The project uses **Spring Security** with JWT-based authentication:
 1. Users log in via **/auth/login** to receive a JWT.
 2. The JWT is included in request headers for authentication and authorization.
 ---
-## Testing <a name="Testing"></a>
+<a name="Testing"></a>
+## Testing 
 - **Unit Testing** and **Integration Testing** are employed to verify core functionality.
 - Manual API testing is conducted using **Postman**.
 
