@@ -5,6 +5,7 @@ import java.util.List;
 import com.backend.Ecommerce.Backend.model.Category;
 
 
+
 public interface ICategoryService {
 
     Category getCategoryById(Long id);
@@ -18,6 +19,7 @@ public interface ICategoryService {
     Category updateCategory(Category category, Long id);
 
     void deleteCategoryById(Long id); 
+
 
 
 }

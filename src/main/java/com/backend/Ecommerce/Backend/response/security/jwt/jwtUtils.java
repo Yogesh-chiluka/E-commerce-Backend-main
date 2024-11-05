@@ -1,67 +1,70 @@
 package com.backend.Ecommerce.Backend.response.security.jwt;
 
-import java.util.*;
+import java.security.Key;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import io.jsonwebtoken;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 
-
- 
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
-import org.springframework.security.access.event.PublicInvocationEvent;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import com.backend.Ecommerce.Backend.response.security.user.ShopUserDetails;
 
-public class jwtUtils {
+@Component
+public class JwtUtils {
 
+    @Value("${auth.token.jwtSecret}")
     private String jwtSecret;
+
+    @Value("${auth.token.expirationInMils}")  
     private int expirationTime;
 
-
-    public String generateTokenForUser(Authentication authentication){
-
+    public String generateTokenForUser(Authentication authentication) {
         ShopUserDetails userPrincipal = (ShopUserDetails) authentication.getPrincipal();
 
         List<String> roles = userPrincipal.getAuthorities()
             .stream()
-            .map(GrantedAuthority::getAuthority).toList();
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getEmail())
                 .claim("id", userPrincipal.getId())
                 .claim("roles", roles)
-                .setIssued(new Date())
-                .setExpiration(new Date((new Date().getTime() +expirationTime)))
-                .signWith(key(), SignatureAlgorithm.HS256).compact();
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + expirationTime))
+                .signWith(key(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    private Key key(){
+    private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    Public String getUsernameFromToken(String token) {
-
-        return jwts.parserBuider()
+    public String getUsernameFromToken(String token) {
+        return Jwts.parserBuilder()
                 .setSigningKey(key())
                 .build()
                 .parseClaimsJws(token)
-                .getBody().getSubject();
+                .getBody()
+                .getSubject();
     }
 
-    public boolean validateToken(String token){
-
-        try{
-            jwts.parserBuider()
-            .setSigningKey(key())
-            .build()
-            .parseClaimsJws(token);
-
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                .setSigningKey(key())
+                .build()
+                .parseClaimsJws(token);
             return true;
-
-        }   catch (ExpriredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e){
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException  | IllegalArgumentException e) {
             throw new JwtException(e.getMessage());
         }
     }
-
-    
 }

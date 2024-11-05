@@ -3,6 +3,7 @@ import java.util.List;
 
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.*;
@@ -17,11 +18,13 @@ import com.backend.Ecommerce.Backend.response.ApiResponse;
 import com.backend.Ecommerce.Backend.service.product.IProductService;
 
 import lombok.RequiredArgsConstructor;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/products")
 public class ProductController {
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     private final IProductService productService;
 
@@ -52,16 +55,20 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product) {
+        logger.debug("Attempting to add product: {}", product);
         try {
             Product theProduct = productService.addProduct(product);
+            
             return ResponseEntity.ok(new ApiResponse("Add product success!", theProduct));
         } catch (AlreadyExistsException e) {
             return ResponseEntity.status(CONFLICT).body(new ApiResponse(e.getMessage(), null));
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/product/{productId}/update")
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request,@PathVariable Long productId){
 
@@ -74,6 +81,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/product/{productId}/delete ")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId){
 

@@ -1,6 +1,7 @@
 package com.backend.Ecommerce.Backend.controller;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import com.backend.Ecommerce.Backend.service.cart.ICartItemService;
 import com.backend.Ecommerce.Backend.service.cart.ICartService;
 import com.backend.Ecommerce.Backend.service.user.IUserService;
 
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -31,13 +33,15 @@ public class CartItemController {
 
         try {
 
-            User user = userService.getUserById(userId);
+            User user = userService.getAuthenticatedUsers();
             Cart cart = cartService.initializerNewCart(user);
             cartItemService.addItemToCart(cart.getId(), productId, quantity);
     
             return ResponseEntity.ok(new ApiResponse("Item added successfully to cart", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
+        } catch (JwtException e) {
+            return ResponseEntity.status(UNAUTHORIZED).body(new ApiResponse(e.getMessage(), null)); 
         }
     }
 
